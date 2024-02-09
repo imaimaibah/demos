@@ -1,0 +1,25 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: topology-spread-constraints
+spec:
+  rules:
+    - name: topology-spread-constraints
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaces:
+                - app-*
+      mutate:
+        patchStrategicMerge:
+          spec:
+            topologySpreadConstraints:
+              - maxSkew: 1
+                topologyKey: kubernetes.io/hostname
+                whenUnsatisfiable: DoNotSchedule
+                nodeTaintsPolicy: Honor
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: '{{request.object.metadata.labels."app.kubernetes.io/name"}}'

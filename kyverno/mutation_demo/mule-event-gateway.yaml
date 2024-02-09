@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: app-event-gateway
+  name: app-event-gateway
+  namespace: app-event-gateway
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: app-event-gateway
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: app-event-gateway
+    spec:
+      containers:
+        - image: nginx
+          name: nginx

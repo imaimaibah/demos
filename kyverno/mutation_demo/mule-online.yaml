@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: app-online
+  name: app-online
+  namespace: app-online
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: app-online
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: app-online
+    spec:
+      containers:
+        - image: nginx
+          name: nginx
